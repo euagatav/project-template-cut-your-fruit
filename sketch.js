@@ -4,7 +4,7 @@ var END=0;
 var gameState=1;
 
 var knife,fruit ,monster,fruitGroup,monsterGroup, score,r,randomFruit, position;
-var knifeImage , fruit1, fruit2 ,fruit3,fruit4, monsterImage, gameOverImage;
+var knifeImage , fruit1, fruit2 ,fruit3,fruit4, monsterImage, gameOverImage, gameOverSound ,knifeSwoosh;
 
 function preload(){
   
@@ -17,6 +17,8 @@ function preload(){
   gameOverImage = loadImage("gameover.png")
 
   //carregue o som aqui
+gameOverSound = loadSound("gameover.mp3")
+knifeSwoosh = loadSound("knifeSwoosh.mp3")
 }
 
 
@@ -55,6 +57,8 @@ function draw() {
     // Aumenta a pontuação se a espada tocar na fruta
     if(fruitGroup.isTouching(knife)){
       fruitGroup.destroyEach();
+      knifeSwoosh.play();
+      score=score+2;
     }
     else
     {
@@ -63,6 +67,7 @@ function draw() {
         gameState=END;
         
         //adicione o som do gameover (fim de jogo) aqui
+        gameOverSound.play();
         
         fruitGroup.destroyEach();
         monsterGroup.destroyEach();
@@ -109,7 +114,8 @@ function fruits(){
     {
     fruit.x=600;
     //atualize o código abaixo para aumentar a velocidade do fruitGroup (grupo de frutas) em 4
-    fruit.velocityX=-7
+    
+fruit.velocityX=-(7+(score/4))
     }
     else
     {
@@ -117,7 +123,8 @@ function fruits(){
       fruit.x=0;
       
      //atualize o código abaixo para aumentar a velocidade do fruitGroup (grupo de frutas) em 4
-      fruit.velocityX= 7;
+      
+fruit.velocityX=(7+(score/4))
       }
     }
     
